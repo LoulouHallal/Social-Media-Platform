@@ -1,5 +1,6 @@
 import Image from "next/image";
 import React from "react";
+import Comments from "./Comments";
 
 function Post() {
   return (
@@ -82,6 +83,8 @@ function Post() {
           </div>
         </div>
       </div>
+
+      <Comments />
     </div>
   );
 }
