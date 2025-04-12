@@ -1,15 +1,23 @@
 import Birthdays from "./Birthdays";
 import FriendRequests from "./FriendRequests";
 import Ad from "./Ad";
-const RightMenu = ({ userId }:{userId?: string }) => {
-  return <div className="flex flex-col gap-6">
-    <FriendRequests/>
-    <Birthdays/>
-    <Ad size="md"/>
+import UserInfoCard from "./UserInfoCard";
+import UserMediaCard from "./UserMediaCard";
 
-
-
-  </div>;
+const RightMenu = ({ userId }: { userId?: string }) => {
+  return (
+    <div className="flex flex-col gap-6">
+      {userId ? (
+        <>
+          <UserInfoCard userId={userId} />
+          <UserMediaCard userId={userId} />
+        </>
+      ) : null}
+      <FriendRequests />
+      <Birthdays />
+      <Ad size="md" />
+    </div>
+  );
 };
 
 export default RightMenu;
