@@ -1,7 +1,28 @@
 import React from "react";
 import Image from "next/image";
+import prisma from "@/lib/client";
+import { auth } from "@clerk/nextjs/server";
 
 const AddPost = () => {
+  const {userId} = auth()
+  console.log(userId) // Replace with actual user ID from context or props
+
+ const testAction = async (formdata:FormData) => {
+  "use server"
+  const desc = formdata.get("description") as string;
+  try{
+    prisma.post.create({
+      data:{
+        userId: userId,
+        desc: desc,
+      }
+    })
+
+  }catch (error) {
+    console.log(error);
+}
+}
+
   return (
     <div className="p-4 bg-white flex gap-4 justify-between text-sm">
       <Image
@@ -12,23 +33,24 @@ const AddPost = () => {
         height={48}
       ></Image>
       <div className=" flex-1">
-        <div className=" flex gap-4 ">
+        <form action={testAction}className=" flex gap-4 ">
           <textarea
             placeholder="What's on your mind ?"
-            name=""
             id=""
             className=" bg-slate-100
             rounded-lg
             flex-1 p-2"
+          name="description"
           ></textarea>
           <Image
             src="/emoji.png"
             alt=""
             className="w-5 h-5 cursor-pointer self-end"
-            width={20}
+            width={20} 
             height={20}
           ></Image>
-        </div>
+          <button>Send</button>
+        </form>
 
         {/* options */}
         <div className="flex items-center gap-4 mt-4 text-gray-400 flex-wrap">
