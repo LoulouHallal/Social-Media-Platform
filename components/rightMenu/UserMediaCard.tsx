@@ -1,8 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { User } from "@clerk/nextjs/server";
 
-const UserMediaCard = ({ userId }: { userId: string }) => {
+const UserMediaCard = ({ user }: { user: User }) => {
   // Use the prop to avoid the warning
 
   return (

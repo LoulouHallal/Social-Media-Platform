@@ -12,7 +12,7 @@ model Block {
   createdAt                  DateTime @default(now())
   blockerId                  String
   blockedId                  String
-  User_Block_blockedIdToUser User     @relation("Block_blockedIdToUser", fields: [blockedId], references: [id], onDelete: Cascade)
+  User_Block_blockedIdToUser User @relation("Block_blockedIdToUser", fields: [blockedId], references: [id], onDelete: Cascade, map: "Block_blockedId_fkey_custom")
   User_Block_blockerIdToUser User     @relation("Block_blockerIdToUser", fields: [blockerId], references: [id], onDelete: Cascade)
 
   @@unique([blockerId, blockedId])
@@ -26,8 +26,8 @@ model Comment {
   updatedAt DateTime
   userId    String
   postId    Int
-  Post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Post Post @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Comment_postId_fkey_custom")
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Comment_userId_fkey_custom")
   Like      Like[]
 
   @@index([postId], map: "Comment_postId_fkey")
@@ -39,7 +39,7 @@ model FollowRequest {
   createdAt                           DateTime @default(now())
   senderId                            String
   receiverId                          String
-  User_FollowRequest_receiverIdToUser User     @relation("FollowRequest_receiverIdToUser", fields: [receiverId], references: [id], onDelete: Cascade)
+  User_FollowRequest_receiverIdToUser User @relation("FollowRequest_receiverIdToUser", fields: [receiverId], references: [id], onDelete: Cascade, map: "FollowRequest_receiverId_fkey_custom")
   User_FollowRequest_senderIdToUser   User     @relation("FollowRequest_senderIdToUser", fields: [senderId], references: [id], onDelete: Cascade)
 
   @@unique([senderId, receiverId])
@@ -51,8 +51,8 @@ model Follower {
   createdAt                       DateTime @default(now())
   followerId                      String
   followingId                     String
-  User_Follower_followerIdToUser  User     @relation("Follower_followerIdToUser", fields: [followerId], references: [id], onDelete: Cascade)
-  User_Follower_followingIdToUser User     @relation("Follower_followingIdToUser", fields: [followingId], references: [id], onDelete: Cascade)
+User_Follower_followerIdToUser User @relation("Follower_followerIdToUser", fields: [followerId], references: [id], onDelete: Cascade, map: "Follower_followerId_fkey_custom")
+User_Follower_followingIdToUser User @relation("Follower_followingIdToUser", fields: [followingId], references: [id], onDelete: Cascade, map: "Follower_followingId_fkey_custom")
 
   @@index([followerId], map: "Follower_followerId_fkey")
   @@index([followingId], map: "Follower_followingId_fkey")
@@ -64,9 +64,9 @@ model Like {
   userId    String
   postId    Int?
   commentId Int?
-  Comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
-  Post      Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Comment Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade, map: "Like_commentId_fkey_custom")
+  Post Post? @relation(fields: [postId], references: [id], onDelete: Cascade, map: "Like_postId_fkey_custom")
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Like_userId_fkey_custom")
 
   @@index([commentId], map: "Like_commentId_fkey")
   @@index([postId], map: "Like_postId_fkey")
@@ -78,11 +78,11 @@ model Post {
   desc      String
   img       String?
   createdAt DateTime  @default(now())
-  updatedAt DateTime
+  updatedAt DateTime 
   userId    String
   Comment   Comment[]
   Like      Like[]
-  User      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade, map: "Post_userId_fkey_custom")
 
   @@index([userId], map: "Post_userId_fkey")
 }
@@ -97,7 +97,7 @@ model Story {
 }
 
 model User {
-  id                                           String          @id
+  id                                           String          @id  @default(uuid())
   username                                     String          @unique
   avatar                                       String?
   cover                                        String?
