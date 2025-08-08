@@ -52,7 +52,7 @@ const AddPost = async () => {
             width={20}
             height={20}
           ></Image>
-          <button>Send</button>
+          <button>Send your message now</button>
         </form>
 
         {/* options */}
