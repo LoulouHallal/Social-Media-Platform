@@ -45,14 +45,16 @@ const AddPost = async () => {
             flex-1 p-2"
             name="description"
           ></textarea>
-          <Image
-            src="/emoji.png"
-            alt=""
-            className="w-5 h-5 cursor-pointer self-end"
-            width={20}
-            height={20}
-          ></Image>
-          <button>Send your message now</button>
+          <div>
+            <Image
+              src="/emoji.png"
+              alt=""
+              className="w-5 h-5 cursor-pointer self-end"
+              width={20}
+              height={20}
+            ></Image>
+            <button>Send</button>
+          </div>
         </form>
 
         {/* options */}
